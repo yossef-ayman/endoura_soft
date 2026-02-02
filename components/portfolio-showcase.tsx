@@ -139,7 +139,10 @@ export function PortfolioShowcase({
     },
   }[language]
 
-  const allProjects = [...portfolioProjects, ...extraProjects]
+  const allProjects = [
+    ...portfolioProjects.filter(p => !extraProjects.find(ep => ep.id === p.id)),
+    ...extraProjects
+  ]
   const categories = [t.all, ...Array.from(new Set(allProjects.map((p) => p.category)))]
 
   const filteredProjects =

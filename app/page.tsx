@@ -22,7 +22,7 @@ import { useSearchParams } from "next/navigation"
 
 function PageContent() {
     const searchParams = useSearchParams()
-    const isAdmin = searchParams.get("MoYO-711") === "true"
+    const isAdmin = searchParams.get("MoYO$711") === "true"
 
     const [isVisible, setIsVisible] = useState(false)
     const [language, setLanguage] = useState<"ar" | "en">("ar")
@@ -42,7 +42,10 @@ function PageContent() {
     }
 
     const handleUpdateProject = (updatedProject: any) => {
-        const updated = extraProjects.map(p => p.id === updatedProject.id ? updatedProject : p)
+        const exists = extraProjects.some(p => p.id === updatedProject.id)
+        const updated = exists
+            ? extraProjects.map(p => p.id === updatedProject.id ? updatedProject : p)
+            : [...extraProjects, updatedProject]
         setExtraProjects(updated)
         localStorage.setItem("endoura_extra_projects", JSON.stringify(updated))
         setProjectToEdit(null)
